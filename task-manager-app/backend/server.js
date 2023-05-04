@@ -1,10 +1,39 @@
+const dotenv = require("dotenv").config();
 const express = require("express");
+const connectDB = require('./config/ConnectDB')
+const mongoose = require("mongoose");
+const Task = require('./models/taskModel');
+const taskRoutes = require('./routes/taskRoute');
 
 
 const app = express();
 
-//const port = 8885;
-const PORT = process.env.PORT || 8000;
-app.listen(PORT, () => {
-    console.log(`Server running on ${PORT}`);
+
+//Route '/' to be "Home Page"
+app.get('/', (req, res) => {
+    res.send("Home Page");
 })
+
+
+//Middleware
+app.use(express.json())//This returns the JSON obj we placed in the req POST body in Insomnia
+app.use(express.urlencoded({extended:false}));
+app.use(taskRoutes);
+
+
+
+
+
+const PORT = process.env.PORT || 8000;
+
+mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server running on ${PORT}`);
+        }); 
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+
