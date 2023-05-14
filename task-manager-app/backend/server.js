@@ -4,6 +4,7 @@ const connectDB = require('./config/ConnectDB')
 const mongoose = require("mongoose");
 const Task = require('./models/taskModel');
 const taskRoutes = require('./routes/taskRoute');
+const cors = require("cors");
 
 
 const app = express();
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 //Middleware
 app.use(express.json())//This returns the JSON obj we placed in the req POST body in Insomnia
 app.use(express.urlencoded({extended:false}));
+app.use(cors());
 app.use(taskRoutes);
 
 
