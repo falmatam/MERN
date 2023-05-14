@@ -19,7 +19,12 @@ app.get('/', (req, res) => {
 //Middleware
 app.use(express.json())//This returns the JSON obj we placed in the req POST body in Insomnia
 app.use(express.urlencoded({extended:false}));
-app.use(cors());
+app.use(cors({
+    origin:[
+        "http://localhost:3000",
+        
+    ]
+}));
 app.use(taskRoutes);
 
 
